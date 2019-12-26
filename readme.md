@@ -7,4 +7,4 @@
 
 4. Setup the sample by replace the CLIENT_ID and VIEW_ID in `GA.html`
 
-5. Rung `node server.js` to start server and sign in to your google account to see the data from GA
+5. Run `node server.js` to start server and sign in to your google account to see the data from GA
