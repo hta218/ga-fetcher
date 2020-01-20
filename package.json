@@ -1,0 +1,42 @@
+{
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "googleapis": "^47.0.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.8.7"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "nodemon": "^2.0.2"
+  },
+  "scripts": {
+    "start": "nodemon --exec babel-node app.js"
+  },
+  "name": "pf-analytics",
+  "description": "1. Create new [Analytics Account](https://analytics.google.com/analytics/) 2. Add to PageFly by this [tutorial](https://help.pagefly.io/documentation/pagefly-integrate-with-google-analytics-to-track-my-page/) 3. Using [GA Reporting API](https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/web-js) v4 to get GA's data   * Enable API by using the [setup tool](https://console.developers.google.com/flows/enableapi?apiid=analyticsreporting.googleapis.com&credential=client_key) (Go to Library => search for GA api => Enable)   * Config [consent screen](https://console.cloud.google.com/apis/credentials/consent) to get Client ID",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hta218/ga-api-starter.git"
+  },
+  "keywords": [
+    "Google",
+    "Analytics",
+    "PageFly"
+  ],
+  "author": "Leo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hta218/ga-api-starter/issues"
+  },
+  "homepage": "https://github.com/hta218/ga-api-starter#readme"
+}
