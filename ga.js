@@ -7,6 +7,9 @@ const googleAccounts = google.analytics('v3')
 const googleAnalytics = google.analyticsreporting('v4')
 
 router.get('/view', (req, res) => {
+  const { url = "", access_token = "" } = req.query
+  oauth2Client.setCredentials({ access_token })
+
   googleAccounts.management.profiles.list(
     {
       accountId: '~all',
@@ -15,59 +18,39 @@ router.get('/view', (req, res) => {
     },
     (err, profiles) => {
       if (err) {
-        console.error('Error: ' + err)
-        res.json({ success: 0, err })
+        res.json({ success: 0, err: err.toString() })
       } else if (profiles) {
         let views = []
-        profiles.data.items.forEach(view => {
-          views.push({
-            name: view.webPropertyId + ' - ' + view.name + ' (' + view.websiteUrl + ')',
-            id: view.id
-          })
+        profiles.data.items.forEach(({ id, webPropertyId, name, websiteUrl }) => {
+          if (websiteUrl.includes(url)) {
+            views.push({
+              name: `${webPropertyId} - ${name} (${websiteUrl})`,
+              id
+            })
+          }
         })
-        res.json({ success: 1, views })
+        res.json({ success: 1, views, profiles })
       }
     }
   )
 })
 
-router.get('/data', (req, res) => {
-  const { access_token, viewId } = req.query
-  console.log('=================>', access_token, viewId)
-  // const access_token = 'ya29.Il-6BxZSg_6IMoz3xbmlkGtddmEKyKauceegNl-6z4eECgCRbyCqw2c51dDCckmQM0t84AnDiXfEnElj8ZtU5lMmJqI4Bp1JoJj2SIWTZyzEhLXG4x0sM5LxsfRLsmjlVA'
-  if (access_token) {
+router.post('/data', (req, res) => {
+  const { resource, access_token } = req.body
+  console.log('=================>', resource, access_token, req.body)
+  if (resource && access_token) {
     oauth2Client.setCredentials({ access_token })
   } else {
-    res.json({ success: 0, message: 'Missing access_token' })
+    res.json({ success: 0, message: 'Missing request data' })
   }
 
   googleAnalytics.reports.batchGet({
     headers: { 'Content-Type': 'application/json' },
     auth: oauth2Client,
-    resource: {
-      reportRequests: [
-        {
-          viewId,
-          dateRanges: [
-            { startDate: '2019-12-23', endDate: '2020-01-15' },
-            // { startDate: '2020-01-01', endDate: '2020-01-15' },
-          ],
-          metrics: [
-            {
-              expression: 'ga:avgSessionDuration'
-            }
-          ],
-          dimensions: [
-            {
-              name: 'ga:date'
-            }
-          ]
-        }
-      ]
-    }
+    resource
   }, (err, payload) => {
     if (err) {
-      res.json({ success: 0, msg: `Error code ${err.code} - ${err.errors[0].message}` })
+      res.json({ success: 0, err: err.toString() })
     }
     try {
       let results = []

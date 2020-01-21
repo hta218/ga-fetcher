@@ -1,13 +1,11 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import session from 'express-session'
-import mongoose from 'mongoose'
 
 import authRouter from './auth'
 import gaRouter from './ga'
 
 const port = process.env.PORT || 6969
-const MONGODB_URI = process.env.MONGODB_URI
 const app = express()
 
 app.use(bodyParser.json())
@@ -16,8 +14,8 @@ app.use(session({ secret: 'xcvbnadqwo1234', resave: true, saveUninitialized: tru
 
 // mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
 
-app.get('/', (req, res) => {
-  res.json({ test: 'ok' })
+app.post('/', (req, res) => {
+  res.json({ test: 'ok', body: req.body.foo })
 })
 
 app.use('/ga', gaRouter)
