@@ -1,5 +1,5 @@
 # Nodejs Google API Starter
-🚠 Fetching Google Analytics data with Google APIs in Node.js
+🚠 Fetch Google Analytics data with Google APIs in Node.js
 
 # Installation
 ### Create Google App
