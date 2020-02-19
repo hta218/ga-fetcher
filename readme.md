@@ -1,16 +1,16 @@
 # Nodejs Google Api Starter
-🛀 Fetching Google Analytics data with Google API in Node.js
+🚠 Fetching Google Analytics data with Google APIs in Node.js
 
 # Installation
-### Create your Google app
+### Create Google App
 1. Add new Project from [Google Console](https://console.developers.google.com/)
 2. [Create Credentials](https://console.developers.google.com/apis/credentials) for your app (Select `Oauth Client ID` => `Web application` => `Create`)
 3. Config URIs & Authorized redirect URIs in [Consent Screen](https://console.cloud.google.com/apis/credentials/consent)
     * URI example: http://localhost:6969
     * Redirect URI example: http://localhost:6969/auth/callback
-4. Enable [Google Analytics API](https://console.developers.google.com/apis/api/analytics.googleapis.com/overview) (Go to Library => search GA API => Enable)
+4. Enable [Google Analytics API](https://console.developers.google.com/apis/api/analytics.googleapis.com/overview) (Go to Library => search `Analytics API` => Enable)
 
-### Node JS Server
+### Set up Nodejs Server
 1. `git clone https://github.com/hta218/nodejs-google-api-starter.git`
 
 2. Config `.env` file (Using `.env.example`)
