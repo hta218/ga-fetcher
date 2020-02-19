@@ -16,8 +16,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node app.js"
   },
-  "name": "pf-analytics",
-  "description": "1. Create new [Analytics Account](https://analytics.google.com/analytics/) 2. Add to PageFly by this [tutorial](https://help.pagefly.io/documentation/pagefly-integrate-with-google-analytics-to-track-my-page/) 3. Using [GA Reporting API](https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/web-js) v4 to get GA's data   * Enable API by using the [setup tool](https://console.developers.google.com/flows/enableapi?apiid=analyticsreporting.googleapis.com&credential=client_key) (Go to Library => search for GA api => Enable)   * Config [consent screen](https://console.cloud.google.com/apis/credentials/consent) to get Client ID",
+  "name": "nodejs-google-api-starter",
   "version": "1.0.0",
   "main": "app.js",
   "repository": {
