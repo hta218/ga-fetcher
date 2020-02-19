@@ -1,14 +1,10 @@
 {
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
-    "googleapis": "^47.0.0",
-    "moment": "^2.24.0",
-    "mongoose": "^5.8.7"
+    "googleapis": "^47.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.3",
@@ -31,7 +27,8 @@
   "keywords": [
     "Google",
     "Analytics",
-    "PageFly"
+    "Node JS",
+    "Google API"
   ],
   "author": "Leo",
   "license": "ISC",

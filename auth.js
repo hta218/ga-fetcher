@@ -5,33 +5,28 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const router = express.Router()
+
 const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
-const VIEW_ID = process.env.VIEW_ID
-const PAGEFLY_URL = process.env.PAGEFLY_URL
-const REDIRECT_URI = 'http://localhost:6969/auth/google/callback'
+const PORT = process.env.PORT || 6969
+const REDIRECT_URI = `http://localhost:${PORT}/auth/callback`
 
 const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
 
-const url = oauth2Client.generateAuthUrl({
-  access_type: 'online',
+const redirectURL = oauth2Client.generateAuthUrl({
+  access_type: 'offline',
 	scope: 'https://www.googleapis.com/auth/analytics.readonly'
 })
 
-router.get('/google/signin', (req, res) => res.redirect(url))
+router.get('/signin', (req, res) => res.redirect(redirectURL))
 
-router.get('/google/callback', (req, res) => {
-  oauth2Client.getToken(req.query.code, (err, tokens) => {
-    if (err) {
-      res.json({ success: 0, err })
-    } else {
-      oauth2Client.setCredentials({ access_token: tokens.access_token })
-      // res.cookie('access_token', tokens.access_token)
-      // res.cookie('googleAuth', new Date())
-      // res.json({ tokens })
-      res.location(`${PAGEFLY_URL}/analytics`)
-    }
-  })
+router.get('/callback', async (req, res) => {
+  const { tokens } = await oauth2Client.getToken(req.query.code)
+
+  // ..... save 'tokens' to database
+
+  res.cookie('tokens', JSON.stringify(tokens))
+  res.json({ success: 0, message: 'Sign in sucessfully', tokens })
 })
 
 export default router

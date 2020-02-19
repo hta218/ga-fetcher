@@ -7,8 +7,8 @@ const googleAccounts = google.analytics('v3')
 const googleAnalytics = google.analyticsreporting('v4')
 
 router.get('/view', (req, res) => {
-  const { url = "", access_token = "" } = req.query
-  oauth2Client.setCredentials({ access_token })
+  const credentials = JSON.parse(req.cookies['tokens'])
+  oauth2Client.setCredentials(credentials)
 
   googleAccounts.management.profiles.list(
     {
@@ -22,45 +22,49 @@ router.get('/view', (req, res) => {
       } else if (profiles) {
         let views = []
         profiles.data.items.forEach(({ id, webPropertyId, name, websiteUrl }) => {
-          if (websiteUrl.includes(url)) {
-            views.push({
-              name: `${webPropertyId} - ${name} (${websiteUrl})`,
-              id
-            })
-          }
+          views.push({
+            name: `${webPropertyId} - ${name} (${websiteUrl})`,
+            id
+          })
         })
-        res.json({ success: 1, views, profiles })
+        res.json({ success: 1, message: "Use a viewId as a request's query parameter to fetch Google Analytics data", views, profiles })
       }
     }
   )
 })
 
-router.post('/data', (req, res) => {
-  const { resource, access_token } = req.body
-  console.log('=================>', resource, access_token, req.body)
-  if (resource && access_token) {
-    oauth2Client.setCredentials({ access_token })
-  } else {
-    res.json({ success: 0, message: 'Missing request data' })
-  }
+router.get('/data', (req, res) => {
+  const credentials = JSON.parse(req.cookies['tokens'])
+  oauth2Client.setCredentials(credentials)
+
+  const { viewId } = req.query
 
   googleAnalytics.reports.batchGet({
-    headers: { 'Content-Type': 'application/json' },
     auth: oauth2Client,
-    resource
+    requestBody: {
+      reportRequests: [
+        {
+          viewId,
+          dateRanges: [
+            { startDate: "7daysAgo", endDate: "yesterday" }
+          ],
+          metrics: [
+            { expression: "ga:users" },
+            { expression: "ga:avgSessionDuration" },
+          ],
+          dimensions: [
+            { name: 'ga:pagePath' },
+            { name: 'ga:date' },
+          ]
+        },
+      ]
+    }
   }, (err, payload) => {
     if (err) {
       res.json({ success: 0, err: err.toString() })
+    } else {
+      res.json({ success: 1, payload })
     }
-    try {
-      let results = []
-      let days = []
-      payload.data.reports[0].data.rows.forEach(row => {
-        days.push(row.dimensions[0])
-        results.push(row.metrics[0].values[0])
-      })
-      res.json({ success: 1, results, days, payload })
-    } catch(e) { res.json({ success: 0, msg: 'PF:: Error when extracting data', err }) }
   })
 })
 
