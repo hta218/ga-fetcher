@@ -22,7 +22,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hta218/ga-api-starter.git"
+    "url": "git+https://github.com/hta218/nodejs-google-api-starter.git"
   },
   "keywords": [
     "Google",
@@ -30,10 +30,10 @@
     "Node JS",
     "Google API"
   ],
-  "author": "Leo",
+  "author": "Leo Huynh",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hta218/ga-api-starter/issues"
+    "url": "https://github.com/hta218/nodejs-google-api-starter/issues"
   },
-  "homepage": "https://github.com/hta218/ga-api-starter#readme"
+  "homepage": "https://github.com/hta218/nodejs-google-api-starter#readme"
 }
